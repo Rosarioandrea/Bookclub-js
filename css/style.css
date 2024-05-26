@@ -1,0 +1,23 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header{
+    background-color: black;
+}
+
+.navbar{
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 1.25rem;
+}
+
+.navbar li a{
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+
+}
