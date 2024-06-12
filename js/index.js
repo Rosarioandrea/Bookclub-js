@@ -1,74 +1,66 @@
 // Algoritmo con condicional para verificar la disponibilidad de un libro
+let librosEnStock = ["Alas de sangre", "Corte de Rosas y Espinas", "Ciudad Medialuna", "Fuego y Sangre"];
 
-let nombreLibro = prompt("Ingresa el nombre del libro:");
-let librosEnStock = ["El principito", "Cien años de soledad", "Alas de sangre", "Harry Potter"];
-
-if (librosEnStock.includes(nombreLibro)) {
-    console.log("El libro está disponible en stock.");
-} else {
-    console.log("El libro no está disponible en stock.");
+function verificarDisponibilidad() {
+    let nombreLibro = document.getElementById("nombreLibro").value;
+    if (librosEnStock.includes(nombreLibro)) {
+        document.getElementById("disponibilidadResultado").innerText = "El libro está disponible en stock.";
+    } else {
+        document.getElementById("disponibilidadResultado").innerText = "El libro no está disponible en stock.";
+    }
 }
 
 // Algoritmo con ciclo para hacer una lista de los libros disponibles
+let librosDisponibles = ["Alas de sangre", "Corte de Rosas y Espinas", "Ciudad Medialuna", "Fuego y Sangre"];
 
-let librosDisponibles = ["El principito", "Cien años de soledad", "Alas de sangre", "Harry Potter"];
-
-console.log("Libros disponibles en Bookclub:");
-for (let i = 0; i < librosDisponibles.length; i++) {
-    console.log(librosDisponibles[i]);
+function listarLibrosDisponibles() {
+    let listaLibros = document.getElementById("listaLibros");
+    listaLibros.innerHTML = '';
+    librosDisponibles.forEach(libro => {
+        let li = document.createElement("li");
+        li.innerText = libro;
+        listaLibros.appendChild(li);
+    });
 }
 
-// Simulador interactivo para calcular el costo total de productos seleccionados
+listarLibrosDisponibles();
 
-let libros = [{
-        nombre: "El principito",
-        precio: 10
-    },
-    {
-        nombre: "Cien años de soledad",
-        precio: 15
-    },
-    {
-        nombre: "Alas de sangre",
-        precio: 12
-    },
-    {
-        nombre: "Harry Potter",
-        precio: 20
-    }
+// Simulador interactivo para calcular el costo total de productos seleccionados
+let libros = [
+    { nombre: "Alas de sangre", precio: 10 },
+    { nombre: "Corte de Rosas y Espinas", precio: 15 },
+    { nombre: "Ciudad Medialuna", precio: 12 },
+    { nombre: "Fuego y Sangre", precio: 20 }
 ];
 
 let total = 0;
-let seleccion;
 
-do {
-    seleccion = prompt("Ingresa el nombre del libro que deseas comprar o escribe 'no' para finalizar:");
+function agregarAlCarrito() {
+    let seleccion = document.getElementById("libroSeleccion").value;
     let libro = libros.find(libro => libro.nombre === seleccion);
 
     if (libro) {
         total += libro.precio;
-        console.log(`${libro.nombre} agregado al carrito. Precio: $${libro.precio}`);
+        document.getElementById("carritoResultado").innerText = `${libro.nombre} agregado al carrito. Precio: $${libro.precio}. Total: $${total}`;
     } else if (seleccion !== "no") {
-        console.log("Libro no encontrado.");
+        document.getElementById("carritoResultado").innerText = "Libro no encontrado.";
     }
-} while (seleccion !== "no");
+}
 
-console.log(`El costo total de los libros es: $${total}`);
-
-// Calcular pagos en cuotas 
-
-let montoTotal = parseFloat(prompt("Ingresa el monto total a pagar:"));
-let numeroCuotas = parseInt(prompt("Ingresa el número de cuotas:"));
-
-let montoCuota = montoTotal / numeroCuotas;
-console.log(`El monto a pagar por cada cuota es: $${montoCuota.toFixed(2)}`);
-
+// Calcular pagos en cuotas
+function calcularCuotas() {
+    let montoTotal = parseFloat(document.getElementById("montoTotal").value);
+    let numeroCuotas = parseInt(document.getElementById("numeroCuotas").value);
+    let montoCuota = montoTotal / numeroCuotas;
+    document.getElementById("cuotasResultado").innerText = `El monto a pagar por cada cuota es: $${montoCuota.toFixed(2)}`;
+}
 
 // Calcular valor final con impuestos y descuentos
+function calcularValorFinal() {
+    let precioProducto = parseFloat(document.getElementById("precioProducto").value);
+    let impuesto = parseFloat(document.getElementById("impuesto").value) / 100;
+    let descuento = parseFloat(document.getElementById("descuento").value) / 100;
 
-let precioProducto = parseFloat(prompt("Ingresa el precio del libro:"));
-let impuesto = parseFloat(prompt("Ingresa el porcentaje de impuesto (%):")) / 100;
-let descuento = parseFloat(prompt("Ingresa el porcentaje de descuento (%):")) / 100;
-
-let valorFinal = precioProducto + (precioProducto * impuesto) - (precioProducto * descuento);
-console.log(`El valor final del libro es: $${valorFinal.toFixed(2)}`);
+    let valorFinal = precioProducto + (precioProducto * impuesto) - (precioProducto * descuento);
+    document.getElementById("valorFinalResultado").innerText = `El valor final del libro es: $${valorFinal.toFixed(2)}`;
+}
