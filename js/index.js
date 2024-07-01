@@ -1,4 +1,3 @@
-// Algoritmo con condicional para verificar la disponibilidad de un libro
 let librosEnStock = ["Alas de sangre", "Corte de Rosas y Espinas", "Ciudad Medialuna", "Fuego y Sangre"];
 
 function verificarDisponibilidad() {
@@ -10,7 +9,6 @@ function verificarDisponibilidad() {
     }
 }
 
-// Algoritmo con ciclo para hacer una lista de los libros disponibles
 let librosDisponibles = ["Alas de sangre", "Corte de Rosas y Espinas", "Ciudad Medialuna", "Fuego y Sangre"];
 
 function listarLibrosDisponibles() {
@@ -25,12 +23,11 @@ function listarLibrosDisponibles() {
 
 listarLibrosDisponibles();
 
-// Simulador interactivo para calcular el costo total de productos seleccionados
 let libros = [
-    { nombre: "Alas de sangre", precio: 10 },
-    { nombre: "Corte de Rosas y Espinas", precio: 15 },
-    { nombre: "Ciudad Medialuna", precio: 12 },
-    { nombre: "Fuego y Sangre", precio: 20 }
+    { nombre: "Alas de sangre", precio: 10, imagen: "./assets/alas_de_sangre.jpg" },
+    { nombre: "Corte de Rosas y Espinas", precio: 15, imagen: "./assets/corte_de_rosas_y_espinas.jpg" },
+    { nombre: "Ciudad Medialuna", precio: 12, imagen: "./assets/ciudad_medialuna.jpg" },
+    { nombre: "Fuego y Sangre", precio: 20, imagen: "./assets/fuego_y_sangre.jpg" }
 ];
 
 let total = 0;
@@ -41,13 +38,58 @@ function agregarAlCarrito() {
 
     if (libro) {
         total += libro.precio;
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        carrito.push(libro);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
         document.getElementById("carritoResultado").innerText = `${libro.nombre} agregado al carrito. Precio: $${libro.precio}. Total: $${total}`;
     } else if (seleccion !== "no") {
         document.getElementById("carritoResultado").innerText = "Libro no encontrado.";
     }
 }
 
-// Calcular pagos en cuotas
+function agregarAlCarritoPorNombre(nombreLibro) {
+    let libro = libros.find(libro => libro.nombre === nombreLibro);
+
+    if (libro) {
+        total += libro.precio;
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        carrito.push(libro);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        document.getElementById("carritoResultado").innerText = `${libro.nombre} agregado al carrito. Precio: $${libro.precio}. Total: $${total}`;
+    }
+}
+
+function mostrarLibrosConImagenes() {
+    let librosContainer = document.getElementById("librosContainer");
+    librosContainer.innerHTML = '';
+    libros.forEach(libro => {
+        let libroDiv = document.createElement("div");
+        libroDiv.classList.add("libro");
+        
+        let img = document.createElement("img");
+        img.src = libro.imagen;
+        img.alt = libro.nombre;
+        libroDiv.appendChild(img);
+        
+        let nombre = document.createElement("p");
+        nombre.innerText = libro.nombre;
+        libroDiv.appendChild(nombre);
+        
+        let precio = document.createElement("p");
+        precio.innerText = `$${libro.precio}`;
+        libroDiv.appendChild(precio);
+        
+        let boton = document.createElement("button");
+        boton.innerText = "Agregar al carrito";
+        boton.onclick = () => agregarAlCarritoPorNombre(libro.nombre);
+        libroDiv.appendChild(boton);
+        
+        librosContainer.appendChild(libroDiv);
+    });
+}
+
+mostrarLibrosConImagenes();
+
 function calcularCuotas() {
     let montoTotal = parseFloat(document.getElementById("montoTotal").value);
     let numeroCuotas = parseInt(document.getElementById("numeroCuotas").value);
@@ -55,7 +97,6 @@ function calcularCuotas() {
     document.getElementById("cuotasResultado").innerText = `El monto a pagar por cada cuota es: $${montoCuota.toFixed(2)}`;
 }
 
-// Calcular valor final con impuestos y descuentos
 function calcularValorFinal() {
     let precioProducto = parseFloat(document.getElementById("precioProducto").value);
     let impuesto = parseFloat(document.getElementById("impuesto").value) / 100;
